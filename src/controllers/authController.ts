@@ -15,6 +15,23 @@ type SignUpViewModel = {
   formError: string;
 };
 
+type LoginViewModel = {
+  formError: string;
+};
+
+const getLogin: RequestHandler = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
+
+  const hasError = req.query.error === "1";
+  const viewModel: LoginViewModel = {
+    formError: hasError ? "Incorrect email or password." : "",
+  };
+
+  return res.render("auth/login", viewModel);
+};
+
 const getSignUp: RequestHandler = (_req, res) => {
   const viewModel: SignUpViewModel = {
     formData: {
@@ -83,4 +100,14 @@ const postSignUp: RequestHandler = async (req, res) => {
   }
 };
 
-export { getSignUp, postSignUp };
+const postLogout: RequestHandler = (req, res, next) => {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+
+    return res.redirect("/");
+  });
+};
+
+export { getLogin, getSignUp, postSignUp, postLogout };
