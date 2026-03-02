@@ -52,7 +52,10 @@ passport.use(
           return done(null, false, { message: "Incorrect email or password" });
         }
 
-        const passwordMatches = await bcrypt.compare(password, user.password_hash);
+        const passwordMatches = await bcrypt.compare(
+          password,
+          user.password_hash,
+        );
 
         if (!passwordMatches) {
           return done(null, false, { message: "Incorrect email or password" });

@@ -1,4 +1,6 @@
 import express from "express";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import passport from "./config/passport.js";
@@ -11,7 +13,11 @@ import adminRouter from "./routes/admin.js";
 
 const app = express();
 const PostgresStore = connectPgSimple(session);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "../views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
