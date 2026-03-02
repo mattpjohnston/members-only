@@ -36,4 +36,15 @@ const createUser = async (input: NewUserInput): Promise<void> => {
   );
 };
 
-export { findUserByEmail, createUser };
+const promoteUserToMember = async (userId: number): Promise<boolean> => {
+  const result = await query(
+    `UPDATE users
+     SET is_member = TRUE
+     WHERE id = $1`,
+    [userId],
+  );
+
+  return result.rowCount === 1;
+};
+
+export { findUserByEmail, createUser, promoteUserToMember };
