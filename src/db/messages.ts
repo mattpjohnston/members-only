@@ -40,4 +40,14 @@ const getAllMessages = async (): Promise<DbMessage[]> => {
   return result.rows as DbMessage[];
 };
 
-export { createMessage, getAllMessages };
+const deleteMessageById = async (messageId: number): Promise<boolean> => {
+  const result = await query(
+    `DELETE FROM messages
+     WHERE id = $1`,
+    [messageId],
+  );
+
+  return result.rowCount === 1;
+};
+
+export { createMessage, getAllMessages, deleteMessageById };

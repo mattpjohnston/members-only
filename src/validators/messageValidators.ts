@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const newMessageValidation = [
   body("title")
@@ -15,4 +15,8 @@ const newMessageValidation = [
     .withMessage("Message text must be 5000 characters or less"),
 ];
 
-export { newMessageValidation };
+const deleteMessageValidation = [
+  param("id").isInt({ min: 1 }).withMessage("Invalid message id."),
+];
+
+export { newMessageValidation, deleteMessageValidation };

@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 import { validationResult } from "express-validator";
-import { createMessage } from "../db/messages.js";
+import { createMessage, deleteMessageById } from "../db/messages.js";
 
 type NewMessageFormData = {
   title: string;
@@ -78,4 +78,23 @@ const postNewMessage: RequestHandler = async (req, res) => {
   }
 };
 
-export { getNewMessage, postNewMessage };
+const postDeleteMessage: RequestHandler = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .send(String(errors.array()[0]?.msg ?? "Invalid input."));
+  }
+
+  const messageId = Number(req.params.id);
+  const didDelete = await deleteMessageById(messageId);
+
+  if (!didDelete) {
+    return res.status(404).send("Message not found.");
+  }
+
+  return res.redirect("/");
+};
+
+export { getNewMessage, postNewMessage, postDeleteMessage };

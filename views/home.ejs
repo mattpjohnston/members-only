@@ -54,6 +54,7 @@
       <% if (currentUser) { %>
       <a href="/messages/new">Create a new message</a>
       <a href="/membership/join">Join the club</a>
+      <a href="/admin/join">Become admin</a>
       <form class="logout-form" action="/auth/logout" method="post">
         <button type="submit">Log out</button>
       </form>
@@ -77,6 +78,12 @@
         By <%= message.author_first_name %> <%= message.author_last_name %> on
         <%= new Date(message.created_at).toLocaleString() %>
       </p>
+      <% } %>
+
+      <% if (canDeleteMessages) { %>
+      <form action="/messages/<%= message.id %>/delete" method="post">
+        <button type="submit">Delete message</button>
+      </form>
       <% } %>
     </article>
     <% }) %>

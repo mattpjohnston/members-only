@@ -47,4 +47,15 @@ const promoteUserToMember = async (userId: number): Promise<boolean> => {
   return result.rowCount === 1;
 };
 
-export { findUserByEmail, createUser, promoteUserToMember };
+const promoteUserToAdmin = async (userId: number): Promise<boolean> => {
+  const result = await query(
+    `UPDATE users
+     SET is_admin = TRUE
+     WHERE id = $1`,
+    [userId],
+  );
+
+  return result.rowCount === 1;
+};
+
+export { findUserByEmail, createUser, promoteUserToMember, promoteUserToAdmin };

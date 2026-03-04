@@ -17,11 +17,13 @@ router.get("/", async (req, res) => {
     const canSeeDetails = Boolean(
       currentUser?.isMember || currentUser?.isAdmin,
     );
+    const canDeleteMessages = Boolean(currentUser?.isAdmin);
 
     res.render("home", {
       currentUser,
       messages,
       canSeeDetails,
+      canDeleteMessages,
     });
   } catch (error) {
     console.error(error);
