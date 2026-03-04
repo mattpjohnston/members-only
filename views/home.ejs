@@ -44,6 +44,14 @@
         color: #555;
         font-size: 0.95rem;
       }
+
+      .account-status {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -63,6 +71,18 @@
       <a href="/auth/sign-up">Sign up</a>
       <% } %>
     </nav>
+
+    <% if (currentUser) { %>
+    <p class="account-status">
+      Logged in as <strong><%= currentUser.firstName ?? "User" %></strong>.
+      Member: <strong><%= isMember ? "Yes" : "No" %></strong> | Admin:
+      <strong><%= isAdmin ? "Yes" : "No" %></strong>
+    </p>
+    <% } else { %>
+    <p class="account-status">
+      You are browsing as a guest. Log in to create messages.
+    </p>
+    <% } %>
 
     <% if (messages.length === 0) { %>
     <p>No messages yet.</p>

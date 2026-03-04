@@ -14,14 +14,16 @@ router.get("/", async (req, res) => {
   try {
     const currentUser = req.user as CurrentUser | undefined;
     const messages = await getAllMessages();
-    const canSeeDetails = Boolean(
-      currentUser?.isMember || currentUser?.isAdmin,
-    );
-    const canDeleteMessages = Boolean(currentUser?.isAdmin);
+    const isMember = Boolean(currentUser?.isMember);
+    const isAdmin = Boolean(currentUser?.isAdmin);
+    const canSeeDetails = Boolean(isMember || isAdmin);
+    const canDeleteMessages = isAdmin;
 
     res.render("home", {
       currentUser,
       messages,
+      isMember,
+      isAdmin,
       canSeeDetails,
       canDeleteMessages,
     });
