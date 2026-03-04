@@ -4,6 +4,8 @@ import { getAllMessages } from "../db/messages.js";
 type CurrentUser = {
   id?: number;
   firstName?: string;
+  isMember?: boolean;
+  isAdmin?: boolean;
 };
 
 const router = Router();
@@ -12,10 +14,14 @@ router.get("/", async (req, res) => {
   try {
     const currentUser = req.user as CurrentUser | undefined;
     const messages = await getAllMessages();
+    const canSeeDetails = Boolean(
+      currentUser?.isMember || currentUser?.isAdmin,
+    );
 
     res.render("home", {
       currentUser,
       messages,
+      canSeeDetails,
     });
   } catch (error) {
     console.error(error);

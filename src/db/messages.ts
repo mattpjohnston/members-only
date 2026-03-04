@@ -11,6 +11,8 @@ type DbMessage = {
   title: string;
   text: string;
   created_at: string;
+  author_first_name: string;
+  author_last_name: string;
 };
 
 const createMessage = async (input: NewMessageInput): Promise<void> => {
@@ -23,8 +25,15 @@ const createMessage = async (input: NewMessageInput): Promise<void> => {
 
 const getAllMessages = async (): Promise<DbMessage[]> => {
   const result = await query(
-    `SELECT id, title, text, created_at
+    `SELECT
+       messages.id,
+       messages.title,
+       messages.text,
+       messages.created_at,
+       users.first_name AS author_first_name,
+       users.last_name AS author_last_name
      FROM messages
+     JOIN users ON users.id = messages.author_id
      ORDER BY created_at DESC`,
   );
 

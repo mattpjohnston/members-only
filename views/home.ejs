@@ -39,6 +39,11 @@
       .message-text {
         white-space: pre-wrap;
       }
+
+      .message-meta {
+        color: #555;
+        font-size: 0.95rem;
+      }
     </style>
   </head>
   <body>
@@ -66,6 +71,13 @@
     <article>
       <h2><%= message.title %></h2>
       <p class="message-text"><%= message.text %></p>
+
+      <% if (canSeeDetails) { %>
+      <p class="message-meta">
+        By <%= message.author_first_name %> <%= message.author_last_name %> on
+        <%= new Date(message.created_at).toLocaleString() %>
+      </p>
+      <% } %>
     </article>
     <% }) %>
   </body>
