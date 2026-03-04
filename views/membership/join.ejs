@@ -33,11 +33,20 @@
       .success {
         color: #166534;
       }
+
     </style>
   </head>
   <body>
     <h1>Join the club</h1>
-    <p>Enter the secret passcode to become a member.</p>
+    <p>
+      Current status:
+      <% if (isAdmin) { %> Admin (you already have member access) <% } else if
+      (isMember) { %> Member <% } else { %> Not a member yet <% } %>
+    </p>
+    <p>
+      Enter the secret passcode to become a member. If the passcode is correct,
+      you will be redirected to the home page.
+    </p>
 
     <% if (error) { %>
     <p class="error" role="alert"><%= error %></p>

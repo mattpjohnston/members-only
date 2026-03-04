@@ -33,11 +33,16 @@
       .success {
         color: #166534;
       }
+
     </style>
   </head>
   <body>
     <h1>Become admin</h1>
-    <p>Enter the admin passcode.</p>
+    <p>Current status: <% if (isAdmin) { %>Admin<% } else { %>Not admin<% } %></p>
+    <p>
+      Enter the admin passcode. If the passcode is correct, you will be
+      redirected to the home page.
+    </p>
 
     <% if (error) { %>
     <p class="error" role="alert"><%= error %></p>

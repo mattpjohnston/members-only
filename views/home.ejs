@@ -52,6 +52,24 @@
         padding: 0.75rem;
         margin-bottom: 1rem;
       }
+
+      .success-banner {
+        background: #ecfdf3;
+        border: 1px solid #a7f3d0;
+        color: #14532d;
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .info-banner {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #1e3a8a;
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -61,8 +79,12 @@
       <a href="/">Home</a>
       <% if (currentUser) { %>
       <a href="/messages/new">Create a new message</a>
+      <% if (!isMember && !isAdmin) { %>
       <a href="/membership/join">Join the club</a>
+      <% } %>
+      <% if (!isAdmin) { %>
       <a href="/admin/join">Become admin</a>
+      <% } %>
       <form class="logout-form" action="/auth/logout" method="post">
         <button type="submit">Log out</button>
       </form>
@@ -71,6 +93,14 @@
       <a href="/auth/sign-up">Sign up</a>
       <% } %>
     </nav>
+
+    <% if (successMessage) { %>
+    <p class="success-banner"><%= successMessage %></p>
+    <% } %>
+
+    <% if (infoMessage) { %>
+    <p class="info-banner"><%= infoMessage %></p>
+    <% } %>
 
     <% if (currentUser) { %>
     <p class="account-status">

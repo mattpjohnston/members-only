@@ -18,6 +18,24 @@ router.get("/", async (req, res) => {
     const isAdmin = Boolean(currentUser?.isAdmin);
     const canSeeDetails = Boolean(isMember || isAdmin);
     const canDeleteMessages = isAdmin;
+    let successMessage = "";
+    let infoMessage = "";
+
+    if (req.query.membership === "joined") {
+      successMessage = "You are now a club member.";
+    }
+
+    if (req.query.admin === "upgraded") {
+      successMessage = "You are now an admin.";
+    }
+
+    if (req.query.membership === "already") {
+      infoMessage = "You are already a club member.";
+    }
+
+    if (req.query.admin === "already") {
+      infoMessage = "You are already an admin.";
+    }
 
     res.render("home", {
       currentUser,
@@ -26,6 +44,8 @@ router.get("/", async (req, res) => {
       isAdmin,
       canSeeDetails,
       canDeleteMessages,
+      successMessage,
+      infoMessage,
     });
   } catch (error) {
     console.error(error);
