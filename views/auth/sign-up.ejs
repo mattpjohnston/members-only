@@ -4,93 +4,74 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign up</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        max-width: 640px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      form {
-        display: grid;
-        gap: 0.75rem;
-      }
-
-      label {
-        display: grid;
-        gap: 0.25rem;
-      }
-
-      input {
-        padding: 0.5rem;
-      }
-
-      .error {
-        color: #b91c1c;
-        font-size: 0.95rem;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Create account</h1>
+    <main class="page-shell">
+      <h1>Create account</h1>
 
-    <% if (formError) { %>
-    <p class="error"><%= formError %></p>
-    <% } %>
-
-    <form action="/auth/sign-up" method="post">
-      <label>
-        First name
-        <input
-          type="text"
-          name="first_name"
-          value="<%= formData.first_name %>"
-          required
-        />
-      </label>
-      <% if (fieldErrors.first_name) { %>
-      <p class="error"><%= fieldErrors.first_name %></p>
+      <% if (formError) { %>
+      <p class="error"><%= formError %></p>
       <% } %>
 
-      <label>
-        Last name
-        <input
-          type="text"
-          name="last_name"
-          value="<%= formData.last_name %>"
-          required
-        />
-      </label>
-      <% if (fieldErrors.last_name) { %>
-      <p class="error"><%= fieldErrors.last_name %></p>
-      <% } %>
+      <form action="/auth/sign-up" method="post">
+        <label>
+          First name
+          <input
+            type="text"
+            name="first_name"
+            value="<%= formData.first_name %>"
+            required
+          />
+        </label>
+        <% if (fieldErrors.first_name) { %>
+        <p class="error"><%= fieldErrors.first_name %></p>
+        <% } %>
 
-      <label>
-        Email
-        <input type="email" name="email" value="<%= formData.email %>" required />
-      </label>
-      <% if (fieldErrors.email) { %>
-      <p class="error"><%= fieldErrors.email %></p>
-      <% } %>
+        <label>
+          Last name
+          <input
+            type="text"
+            name="last_name"
+            value="<%= formData.last_name %>"
+            required
+          />
+        </label>
+        <% if (fieldErrors.last_name) { %>
+        <p class="error"><%= fieldErrors.last_name %></p>
+        <% } %>
 
-      <label>
-        Password
-        <input type="password" name="password" required />
-      </label>
-      <% if (fieldErrors.password) { %>
-      <p class="error"><%= fieldErrors.password %></p>
-      <% } %>
+        <label>
+          Email
+          <input
+            type="email"
+            name="email"
+            value="<%= formData.email %>"
+            required
+          />
+        </label>
+        <% if (fieldErrors.email) { %>
+        <p class="error"><%= fieldErrors.email %></p>
+        <% } %>
 
-      <label>
-        Confirm password
-        <input type="password" name="confirmPassword" required />
-      </label>
-      <% if (fieldErrors.confirmPassword) { %>
-      <p class="error"><%= fieldErrors.confirmPassword %></p>
-      <% } %>
+        <label>
+          Password
+          <input type="password" name="password" required />
+        </label>
+        <% if (fieldErrors.password) { %>
+        <p class="error"><%= fieldErrors.password %></p>
+        <% } %>
 
-      <button type="submit">Sign up</button>
-    </form>
+        <label>
+          Confirm password
+          <input type="password" name="confirmPassword" required />
+        </label>
+        <% if (fieldErrors.confirmPassword) { %>
+        <p class="error"><%= fieldErrors.confirmPassword %></p>
+        <% } %>
+
+        <button type="submit">Sign up</button>
+      </form>
+    </main>
   </body>
 </html>

@@ -4,138 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Members only</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        max-width: 760px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      nav {
-        display: flex;
-        gap: 0.75rem;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 1.5rem;
-      }
-
-      .logout-form {
-        margin: 0;
-      }
-
-      article {
-        border: 1px solid #d4d4d4;
-        border-radius: 6px;
-        padding: 1rem;
-        margin-bottom: 0.9rem;
-      }
-
-      h2 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-      }
-
-      .message-text {
-        white-space: pre-wrap;
-      }
-
-      .message-meta {
-        color: #555;
-        font-size: 0.95rem;
-      }
-
-      .account-status {
-        background: #f5f5f5;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 0.75rem;
-        margin-bottom: 1rem;
-      }
-
-      .success-banner {
-        background: #ecfdf3;
-        border: 1px solid #a7f3d0;
-        color: #14532d;
-        border-radius: 6px;
-        padding: 0.75rem;
-        margin-bottom: 1rem;
-      }
-
-      .info-banner {
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
-        color: #1e3a8a;
-        border-radius: 6px;
-        padding: 0.75rem;
-        margin-bottom: 1rem;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Members only</h1>
+    <main class="page-shell">
+      <h1>Members only</h1>
 
-    <nav>
-      <a href="/">Home</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <% if (currentUser) { %>
+        <a href="/messages/new">Create a new message</a>
+        <% if (!isMember && !isAdmin) { %>
+        <a href="/membership/join">Join the club</a>
+        <% } %>
+        <% if (!isAdmin) { %>
+        <a href="/admin/join">Become admin</a>
+        <% } %>
+        <form class="unstyled-form" action="/auth/logout" method="post">
+          <button type="submit">Log out</button>
+        </form>
+        <% } else { %>
+        <a href="/auth/login">Log in</a>
+        <a href="/auth/sign-up">Sign up</a>
+        <% } %>
+      </nav>
+
+      <% if (successMessage) { %>
+      <p class="success-banner"><%= successMessage %></p>
+      <% } %>
+
+      <% if (infoMessage) { %>
+      <p class="info-banner"><%= infoMessage %></p>
+      <% } %>
+
       <% if (currentUser) { %>
-      <a href="/messages/new">Create a new message</a>
-      <% if (!isMember && !isAdmin) { %>
-      <a href="/membership/join">Join the club</a>
-      <% } %>
-      <% if (!isAdmin) { %>
-      <a href="/admin/join">Become admin</a>
-      <% } %>
-      <form class="logout-form" action="/auth/logout" method="post">
-        <button type="submit">Log out</button>
-      </form>
+      <p class="account-status">
+        Logged in as <strong><%= currentUser.firstName ?? "User" %></strong>.
+        Member: <strong><%= isMember ? "Yes" : "No" %></strong> | Admin:
+        <strong><%= isAdmin ? "Yes" : "No" %></strong>
+      </p>
       <% } else { %>
-      <a href="/auth/login">Log in</a>
-      <a href="/auth/sign-up">Sign up</a>
-      <% } %>
-    </nav>
-
-    <% if (successMessage) { %>
-    <p class="success-banner"><%= successMessage %></p>
-    <% } %>
-
-    <% if (infoMessage) { %>
-    <p class="info-banner"><%= infoMessage %></p>
-    <% } %>
-
-    <% if (currentUser) { %>
-    <p class="account-status">
-      Logged in as <strong><%= currentUser.firstName ?? "User" %></strong>.
-      Member: <strong><%= isMember ? "Yes" : "No" %></strong> | Admin:
-      <strong><%= isAdmin ? "Yes" : "No" %></strong>
-    </p>
-    <% } else { %>
-    <p class="account-status">
-      You are browsing as a guest. Log in to create messages.
-    </p>
-    <% } %>
-
-    <% if (messages.length === 0) { %>
-    <p>No messages yet.</p>
-    <% } %>
-
-    <% messages.forEach((message) => { %>
-    <article>
-      <h2><%= message.title %></h2>
-      <p class="message-text"><%= message.text %></p>
-
-      <% if (canSeeDetails) { %>
-      <p class="message-meta">
-        By <%= message.author_first_name %> <%= message.author_last_name %> on
-        <%= new Date(message.created_at).toLocaleString() %>
+      <p class="account-status">
+        You are browsing as a guest. Log in to create messages.
       </p>
       <% } %>
 
-      <% if (canDeleteMessages) { %>
-      <form action="/messages/<%= message.id %>/delete" method="post">
-        <button type="submit">Delete message</button>
-      </form>
+      <% if (messages.length === 0) { %>
+      <p class="empty-state">No messages yet.</p>
       <% } %>
-    </article>
-    <% }) %>
+
+      <% messages.forEach((message) => { %>
+      <article class="card">
+        <h2><%= message.title %></h2>
+        <p class="message-text"><%= message.text %></p>
+
+        <% if (canSeeDetails) { %>
+        <p class="message-meta">
+          By <%= message.author_first_name %> <%= message.author_last_name %> on
+          <%= new Date(message.created_at).toLocaleString() %>
+        </p>
+        <% } %>
+
+        <% if (canDeleteMessages) { %>
+        <form
+          class="unstyled-form"
+          action="/messages/<%= message.id %>/delete"
+          method="post"
+        >
+          <button class="button-danger" type="submit">Delete message</button>
+        </form>
+        <% } %>
+      </article>
+      <% }) %>
+    </main>
   </body>
 </html>

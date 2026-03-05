@@ -4,60 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Become admin</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        max-width: 640px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      form {
-        display: grid;
-        gap: 0.75rem;
-      }
-
-      label {
-        display: grid;
-        gap: 0.25rem;
-      }
-
-      input {
-        padding: 0.5rem;
-      }
-
-      .error {
-        color: #b91c1c;
-      }
-
-      .success {
-        color: #166534;
-      }
-
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Become admin</h1>
-    <p>Current status: <% if (isAdmin) { %>Admin<% } else { %>Not admin<% } %></p>
-    <p>
-      Enter the admin passcode. If the passcode is correct, you will be
-      redirected to the home page.
-    </p>
+    <main class="page-shell">
+      <h1>Become admin</h1>
+      <p class="help-text">
+        Current status: <% if (isAdmin) { %>Admin<% } else { %>Not admin<% } %>
+      </p>
+      <p class="help-text">
+        Enter the admin passcode. If the passcode is correct, you will be
+        redirected to the home page.
+      </p>
 
-    <% if (error) { %>
-    <p class="error" role="alert"><%= error %></p>
-    <% } %>
+      <% if (error) { %>
+      <p class="error" role="alert"><%= error %></p>
+      <% } %>
 
-    <% if (success) { %>
-    <p class="success" role="status"><%= success %></p>
-    <% } %>
+      <% if (success) { %>
+      <p class="success" role="status"><%= success %></p>
+      <% } %>
 
-    <form action="/admin/join" method="post">
-      <label>
-        Admin passcode
-        <input type="password" name="passcode" required />
-      </label>
-      <button type="submit">Become admin</button>
-    </form>
+      <form action="/admin/join" method="post">
+        <label>
+          Admin passcode
+          <input type="password" name="passcode" required />
+        </label>
+        <button type="submit">Become admin</button>
+      </form>
+    </main>
   </body>
 </html>

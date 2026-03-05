@@ -4,64 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Join the club</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        max-width: 640px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      form {
-        display: grid;
-        gap: 0.75rem;
-      }
-
-      label {
-        display: grid;
-        gap: 0.25rem;
-      }
-
-      input {
-        padding: 0.5rem;
-      }
-
-      .error {
-        color: #b91c1c;
-      }
-
-      .success {
-        color: #166534;
-      }
-
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Join the club</h1>
-    <p>
-      Current status:
-      <% if (isAdmin) { %> Admin (you already have member access) <% } else if
-      (isMember) { %> Member <% } else { %> Not a member yet <% } %>
-    </p>
-    <p>
-      Enter the secret passcode to become a member. If the passcode is correct,
-      you will be redirected to the home page.
-    </p>
+    <main class="page-shell">
+      <h1>Join the club</h1>
+      <p class="help-text">
+        Current status:
+        <% if (isAdmin) { %> Admin (you already have member access) <% } else if
+        (isMember) { %> Member <% } else { %> Not a member yet <% } %>
+      </p>
+      <p class="help-text">
+        Enter the secret passcode to become a member. If the passcode is
+        correct, you will be redirected to the home page.
+      </p>
 
-    <% if (error) { %>
-    <p class="error" role="alert"><%= error %></p>
-    <% } %>
+      <% if (error) { %>
+      <p class="error" role="alert"><%= error %></p>
+      <% } %>
 
-    <% if (success) { %>
-    <p class="success" role="status"><%= success %></p>
-    <% } %>
+      <% if (success) { %>
+      <p class="success" role="status"><%= success %></p>
+      <% } %>
 
-    <form action="/membership/join" method="post">
-      <label>
-        Secret passcode
-        <input type="password" name="passcode" required />
-      </label>
-      <button type="submit">Join</button>
-    </form>
+      <form action="/membership/join" method="post">
+        <label>
+          Secret passcode
+          <input type="password" name="passcode" required />
+        </label>
+        <button type="submit">Join</button>
+      </form>
+    </main>
   </body>
 </html>

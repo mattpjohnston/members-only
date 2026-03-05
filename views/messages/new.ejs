@@ -4,65 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create message</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        max-width: 700px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      form {
-        display: grid;
-        gap: 0.75rem;
-      }
-
-      label {
-        display: grid;
-        gap: 0.25rem;
-      }
-
-      input,
-      textarea {
-        padding: 0.5rem;
-        font: inherit;
-      }
-
-      textarea {
-        min-height: 140px;
-        resize: vertical;
-      }
-
-      .error {
-        color: #b91c1c;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Create a new message</h1>
+    <main class="page-shell">
+      <h1>Create a new message</h1>
 
-    <% if (formError) { %>
-    <p class="error"><%= formError %></p>
-    <% } %>
-
-    <form action="/messages/new" method="post">
-      <label>
-        Title
-        <input type="text" name="title" value="<%= formData.title %>" required />
-      </label>
-      <% if (fieldErrors.title) { %>
-      <p class="error"><%= fieldErrors.title %></p>
+      <% if (formError) { %>
+      <p class="error"><%= formError %></p>
       <% } %>
 
-      <label>
-        Message
-        <textarea name="text" required><%= formData.text %></textarea>
-      </label>
-      <% if (fieldErrors.text) { %>
-      <p class="error"><%= fieldErrors.text %></p>
-      <% } %>
+      <form action="/messages/new" method="post">
+        <label>
+          Title
+          <input type="text" name="title" value="<%= formData.title %>" required />
+        </label>
+        <% if (fieldErrors.title) { %>
+        <p class="error"><%= fieldErrors.title %></p>
+        <% } %>
 
-      <button type="submit">Post message</button>
-    </form>
+        <label>
+          Message
+          <textarea name="text" required><%= formData.text %></textarea>
+        </label>
+        <% if (fieldErrors.text) { %>
+        <p class="error"><%= fieldErrors.text %></p>
+        <% } %>
+
+        <button type="submit">Post message</button>
+      </form>
+    </main>
   </body>
 </html>
